@@ -1,0 +1,69 @@
+------------- Installar ssh ---------------
+
+ssh-keygen -t ed25519 -C email@gmail.com
+local chave
+senha opcional
+
+cd pasta .ssh
+cat chave ssh.pub
+adiciona a ssh no github
+
+eval $(ssh-agent -s)
+ssh-add chave privada
+
+-------------------------------------------
+
+git init // inicia a linha do tempo
+git add // adiciona ou atualiza mudanças para irem para a linha do tempoo
+git commit -am // adiciona um ponto na linha do tempo , -am ja faz o add e o commit ao mesmo tempo
+git log // visualiza os pontos na linha do tempo / commit
+git status // informa o estado das alterações do nosso projeto
+git show // apresenta determinado ponto na história
+git branch // gerenciar novas linhas do tempo
+git checkout // manipula as linhas do tempo
+git merge // unir linhas do tempo
+git push // envia alterações locais para o repositório remoto
+git clone // clonar um projeto / repositório
+git pull // puxa do repositório remoto
+git push -u origin master // usado quando vai enviar o repositorio para nuvem pela primeira vez
+git config credential.helper store // guarda seu login e senha
+
+git push --set-upstream origin master //
+
+git checkout -b novabranch // cria a nova branch
+git branch -d novabranch // deleta a nova branch
+
+npm install --save styled-components
+npm install @mui/material @emotion/react @emotion/styled
+
+npm install axios // axios é um gerenciador de requisiçoes https
+
+npm install --save react-tabs
+npm install --save react@16.8.6 react-dom@16.8.6 react-scripts@3.0.1
+npx create-react-app app01 //template projeto reactjs
+npx create-next-app@latest //template projeto nextjs
+
+npm run start
+npx kill-port 3000 
+
+.NET -------------------
+
+Install-Package Microsoft.EntityframeworkCore.SqlServer
+Install-Package Microsoft.EntityframeworkCore.Tools
+
+string connection = 
+("Data Source =ServerName;" +
+"Initial Catalog=BDName;" +
+"Integrated Security=True;" +
+"User Id=User;" +
+"Password=Secret;")
+
+dotnet ef migrations add InitialCreation
+dotnet ef database update
+
+dotnet tool install --global dotnet-ef --version //habilita o uso do entity framework no terminal
+
+package console ---------------------
+
+add-migration NomedaMigration -context nomedocontexto // cria a pasta Migrations e a primeira migration com o bd
+Update-database -Context nomedocontexto // aplica a migration no bd

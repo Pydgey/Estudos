@@ -1,0 +1,11 @@
+
+Math.PI the constant PI.
+Math.E represents the natural logarithmic base e.
+Math.Max() returns the larger of its two arguments.
+Math.Min() returns the smaller of its two arguments.
+Math.Abs() returns the absolute value of its argument.
+Math.Sin() returns the sine of the specified angle.
+Math.Cos() returns the cosine of the specified angle.
+Math.Pow() returns a specified number raised to the specified power. //Math.Pow(4,2) is 4²
+Math.Round() rounds the decimal number to its nearest integral value.
+Math.Sqrt() returns the square root of a specified number.

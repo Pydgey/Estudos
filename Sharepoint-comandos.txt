@@ -1,0 +1,169 @@
+------------------------------------------
+||        Install components            ||
+------------------------------------------
+
+instalador do gulp , yeoman e sharepoint framework via npm
+
+- npm install gulp-cli yo @microsoft/generator-sharepoint --global
+
+certificado gulp para rodar o server
+
+- gulp trust-dev-cert
+
+template de projeto sharepoint via yeoman
+
+- yo @microsoft/sharepoint
+
+build da solution
+
+- gulp build
+
+iniciar o servidor
+
+- gulp serve
+
+config/serve.json
+initialPage: https://domore365.sharepoint.com/sites/felipeDev
+
+biblioteca pnp
+
+- npm i @pnp/sp
+- npm i @pnp/spfx-property-controls
+- npm i @pnp/spfx-controls-react
+
+npm install @pnp/spfx-property-controls --save --save-exact
+npm install @pnp/spfx-controls-react --save --save-exact
+
+- atualizado
+npm install @pnp/sp @pnp/graph --save
+
+import { spfi, SPFx } from "@pnp/sp";
+protected async onInit(): Promise<void> {
+
+    await super.onInit();
+    const sp = spfi().using(SPFx(this.context));
+
+}
+ _________________________________________________________________________________________________________
+| correção @pnp/sp not have a definition of sp								  |
+|												 	  |
+| this @pnp/sp version resolved my issue try to uninstall @pnp/sp and install the below version		  |
+| 													  |
+| npm uninstall @pnp/sp											  |
+| 													  |
+| then run below command									          |
+|												  	  |
+| npm i @pnp/sp@2.11.0											  |
+|_________________________________________________________________________________________________________|
+
+
++ gulp-cli@2.3.0
++ yo@4.3.0
++ @microsoft/generator-sharepoint@1.15.2
+
+----------------------
+|| 	utils 	    ||	
+----------------------
+
+ - bootstrap
+npm i react-bootstrap
+
+ - bootstrap datetime picker
+npm i react-bootstrap-datetimepicker // ruim
+
+ - react default datetime picker
+npm install react-datetime-picker // melhor
+
+ - react popup
+npm i reactjs-popup --save
+
+ - react redux
+npm install react-redux
+npm install @reduxjs/toolkit
+
+ - Pnp graph for work with calendar
+npm install @pnp/graph --save
+ 
+ - Fluent UI React
+npm i @fluentui/react
+https://developer.microsoft.com/en-us/fluentui#/styles/web/icons
+
+ _________________________________________________________________________________________________________
+| correção '=' ',' unexpected errors in redux toolkit							  |
+|													  |
+| npm remove @microsoft/rush-stack-compiler-3.7								  |
+| 													  |
+| then run below command									          |
+|												  	  |
+| npm install @microsoft/rush-stack-compiler-3.9 --save-dev						  |
+|													  |
+| Also, have to update the tsconfig.json file to fix the path to the correct build tools version :	  |		| 	"extends": "./node_modules/@microsoft/rush-stack-compiler-3.9/includes/tsconfig-web.json",	  |
+|_________________________________________________________________________________________________________|
+
+ ____________________________________________________________________
+| correção
+|	npm WARN ENOENT: no such file or directory, open 'C:\...'
+|
+|  delete file package-lock.json 
+|____________________________________________________________________
+
+------------------------------------------
+||   Upgrade Wp Version                 ||
+------------------------------------------
+
+1. Install Microsoft 365 CLI
+- npm i -g @pnp/cli-microsoft365
+
+2. Use the project upgrade command to get a upgrade-report for your project
+- m365 spfx project upgrade --toVersion 1.14.0 --output md > upgrade-report.md
+
+3. Abra o arquivo upgrade-report.md, desça até a parte Summary execute script
+execute o script 
+
+4. verifique se existem dependecias duplicadas no arquivo package.json,
+exclua a mais antiga caso haja
+
+5. exclua a pasta node_modules e arquivo package-lock.json
+
+6. rodar o install de novo, npm i
+
+links uteis
+https://elischei.com/how-to-upgrade-your-spfx-project-to-the-latest-version-and-how-to-fix-avoid-common-issues/
+https://sharepoint.handsontek.net/2022/10/31/upgrade-spfx-project-latest-version-3-simple-steps/
+
+------------------------------------------
+||   Deploy WebPart Sharepoint Online   ||
+------------------------------------------
+
+gulp bundle --ship
+
+gulp package-solution --ship
+
+ - clean code and deploy, exec in sequenc
+
+1-
+gulp clean
+2-
+gulp bundle --ship
+3-
+gulp package-solution --ship
+
+
+#Tempodecasa{
+    padding:0px!important;
+}
+
+.tempoDeCasa-Header{
+    margin-bottom:10px;
+}
+
+.Persona{
+    padding-top: 0px !important;
+}
+
+
+-- painel de vagas
+
+ botão para deixar de exibir itens ao expirar data limite,
+ adicionar na lista coluna referente ao limite de data de exibição de cada item individualmente
+

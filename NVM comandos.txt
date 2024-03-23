@@ -1,0 +1,14 @@
+- desinstalar node na versão x
+nvm uninstall x.x.x
+
+- instalar node na versão x
+nvm install x.x.x
+
+- lista todas as versões de node instaladas
+nvm list
+
+- seleciona uma versão do node
+nvm use x.x.x
+
+- mostra a versão do node que esta usando no momento
+nvm current

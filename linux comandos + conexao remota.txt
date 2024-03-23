@@ -1,0 +1,334 @@
+comandos linux login: felipe admin
+
+--------------------------- conexão remota ------------------------------
+
+-- windowns => linux
+
+software putty 
+- baixar o putty.exe ssh and telnet
+- baixar puttygen rsa e dsa key generation
+
+instalação ssh
+sudo apt-get install openssh-server
+
+comando ip a - exibe todos os ips
+pegar o ip em obj enp0s3 prop inet
+
+colocar o ip no putty aceitar cache de conexão no popup
+
+-- linux => linux
+
+terminal da maquina linux que acessará outra maquina remota
+
+ssh nomeDeUsuarioDaMaquinaDestino@ipdamaquina
+exemplo
+	ssh felipe@192.168.30.110
+
+digite yes no continue connecting
+e a senha do usuario quando solicitado
+
+---- acessando vm em nuvem (aws)
+
+-- windowns => cloud linux
+
+painel da aws procure por ec2
+solecione instancias
+escolha a sua vm
+pegue o ip contido em endereço ipv4 publico
+use o puttygen para converter o arquivo pen da sua vm para ppk
+save private key no puttygen
+
+no putty va ao caminho connection->auth no menu lateral
+clicke em browse e escolha seu arquivo ppk
+preencha o ip em hostname na aba session->loggin e open
+e accept no popup
+usuario padrão: ubunto
+senha vazia
+
+-- linux => cloud linux
+
+abra o terminal na maquina que acessará
+painel da aws procure por ec2
+solecione instancias
+escolha a sua vm
+pegue o ip contido em endereço ipv4 publico
+usuario padrão: ubunto
+senha vazia
+comando ssh -i nomeDoArquivoAWS.pen usuarioVm@ippublico
+exemplo
+	ssh -i Ubunto-AWS.pen ubunto@34.207.109.48
+
+correção warning: unprotected private key file
+
+comando sudo chmod 600 nomeDoArquivoAWS.pen
+digite a senha do usuario quando solicitado
+
+-------------------------------------------------------------------
+
+-- Permitir acesso remoto do usuario root
+
+sudo nano /etc/ssh/sshd_config : abre o arquivo de texto de acesso remoto no editor de texto nano
+
+apague o # na linha PermitRootLogin, na mesma linha troque prohibit-password por yes
+
+ctrl+O para salvar
+
+
+-------------------------------------------------------------------
+
+sudo - executa qualquer comando com permissão de administrador
+
+date : exibe a data e hora atual
+
+clear : limpa o terminal ou ctrl + L
+
+pwd : mostra o caminho atual que o usuario esta
+
+cd (caminho de diretorio) : acessa um caminho de diretorio
+
+ls : lista pastas e diretorio em determinado diretorio
+
+ls | more : lista pastas e diretorios em forma de rolagem ctrl + C sai da vizualização
+
+ls texto* : busca diretorios que contem o texto especificado inicialmente
+esse texto pode conter '?' dizendo que n precisa ser uma letra especifica exemplo : ls g?r* : lista todos arquivos e diretorios que iniciam com 'g' e a terceira letra é 'r'
+
+ls texto[1-4] : seleciona arquivos em sequencia com o mesmo nome do valor inicial até o ultimo utilizar ^ causa o efeito contrario, nega a exibição desses arquivos [^1-4]
+
+ls textp[1,4] : seleciona arquivos em sequencia com o mesmo nome nos valores especificos utilizar ^ causa o efeito contrario, nega a exibição desses arquivos [^2,5]
+
+find -name nomedoarquivo : busca em todos os diretorios por um arquivo com este nome
+
+touch nomedoarquivo.extensao : cria arquivo vazio
+
+mkdir 'nomedapasta' : cria um diretorio novo
+
+rmdir 'nomedapasta' : remove um diretorio vazio
+
+rm 'nomearquivo' : remove um arquivo, pode ser aplicado os mesmos parametros do ls como *, [1,5] etc
+
+rm -rf 'nomedapasta' : apaga o diretorio selecionado incluindo tudo dentro dele
+
+comando --help : mostra parametros suportados por esse comando
+
+cat 'arquivo' : mostra conteudo de arquivo de texto
+
+sudo passwd root : atribui senha para o usuario root para logar com controle todal do sistema
+
+su : loga no usuario root
+
+su nomedousuario : loga com outro usuario
+
+systemctl status serviço : mostra o status de um serviço como por exemplo sshd
+
+systemctl restart serviço : reinicia um serviço
+
+vi nomedoarquivo : abre um arquivo de texto no editor vi e cria o arquivo caso não exista
+
+-- vi
+i : entra no modo de edição
+esc : sai do modo de edição
+':' : modo de menu
+w : salva
+q : fecha o arquivo
+:wq : salva e arquivo e fecha
+
+nano nomedoarquivo : abre um arquivo de texto no editor vi e cria o arquivo caso não exista, o nano possui atalhos descritos na tela (^ = ctrl)
+
+history : mostra os ultimos mil comandos utilizados pelo usuario atual, adicione um numero após o comando para limitar a quantidade de comandos exibidos exemplo: history 30
+
+useradd nome : cria um novo usuario
+
+userdell -r -f nome : deleta um usuario e sua pasta home
+
+chsh -s /bin/bash nomedousuario : escolhe o shell padrão do usuario no terminal
+
+useradd nomedousuario -m -c "coment" -s /bin/bash : cria um usuario com configurações padrões como pasta home, shell e descrição no lugar de coment
+
+passwd nomedousuario : configura uma senha para o usuario
+
+usermod nomedousuario parametro valor : modifica parametros de um usuario exemplo: usermod guest -s /bin/bash
+
+-p $(openssl passwd -crypt senhadousuario) : parametro utilizado no useradd para adicionar uma senha ao usuario. obs. está senha deve obrigatoriamente estar encryptada 
+
+groupadd nomedogrupo : cria um novo grupo de usuarios
+
+groupdel nomedogrupo : deleta um grupo de usuarios vazio
+
+gpasswd -d usuario nomedogrupo : remove um usuario de um grupo, trocando -d por -a adiciona o usuario 
+
+chown usuario:grupo diretorio : com usuario root ou com comando sudo pode-se trocar o dono e grupo de permissão de um diretorio
+
+permissionamento de diretorios 
+Leitura (r)  4
+Gravação (w) 2
+Execução (x) 1
+Nenhum 	     0
+
+chmod permissãoDonoPermissaoGrupoPermissaoOutros diretorio
+exemplo:
+chmod 750 /adm/
+o comando acima define a permissão total para o dono do diretorio (leitura 4 + gravação 2 + Execução 1) = 7, leitura e Execução para membros do grupo (leitura 4 + execução 1) = 5 e nenhum para outros membros do sistema, e aplica esse permissionamento no diretorio /adm/. também pode ser aplicado a arquivos especificos passando o nome do arquivo no lugar do caminho do diretorio
+
+-------------------------------------------------------------------------
+
+----------------------- CRIAÇÃO DE SCRIPT -------------------------------
+
+deve-se criar um arquivo de texto com a extensão sh
+a primeira linha deve conter o texto: #!/bin/bash
+a seguir deve conter o comando de terminal que será executado
+
+exemplo:
+
+criar_user.sh
+
+#!/bin/bash
+
+echo "Criando usuarios no sistema"
+
+useradd guest10 -c "convidado" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd guest10 -e
+
+useradd guest11 -c "convidado" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd guest11 -e
+
+useradd guest12 -c "convidado" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd guest12 -e
+
+echo "usuarios criados!"
+
+vá até o diretorio do arquivo sh
+chmod +x criar_user.sh : da permissão de execução para o arquivo
+./criar_user.sh : executa o script
+
+--------------------------------------------------------------------------
+
+ -- Gerenciamento de pacotes apt / dnf / yum
+
+apt -get install nomedopacote : busca repositorios da internet e instala
+
+apt list : lista repositorios que podem ser baixados na maquina
+
+apt list --installed : lista repositorios ja instalados na maquina
+
+apt list --upgradable : pacotes que podem ser atualizados
+
+apt search nomedopacote : busca todas as versões disponiveis para um determinado pacote
+
+apt edit sources : edita caminhos para repositorios e permite instalações de caminhos personalizados
+
+apt update : baixa automaticammente os pacotes de atualização possiveis para softwares presentes na maquina
+
+apt upgrade -y : instala os pacotes de atualização baixados previamente o argumento -y serve para não solicitar confirmações durante as instalações
+
+apt install ./caminhoDoArquivo : instala pacotes de arquivos pelo diretorio local dele caso esteja baixado na maquina
+
+lsblk : mostra os discos de armazenamento na maquina
+
+fdisk -l : lista os discos de armazenamento
+
+fdisk caminhodoDisco : use 'n' no select para criar uma nova partição no disco indicado
+
+mkfs.Formatação caminhodoDisco : formata o disco no formato de dados indicado por exemplo: mkfs.ext4 /dev/sdb : formata o disco 'b' em formato de dados ext4
+
+- formatações comuns
+	macOS - HFS
+	Unix/Linux - Ext3,Ext4,XFS
+	Windowns - FAT32, NTFS
+
+mount caminhodoDisco diretorio : ex: mount /dev/sdb /mnt/disco2 : monta o disco sdb no diretorio disco2 e tudo que for salvo no diretorio disco2 sera armazenado no hd sdb
+
+unmount caminhodoDisco : desmonta o hd do diretorio
+
+nano /etc/fstab : abre o arquivo fstab, serve para configurar a auto montagem de discos ao iniciar o sistema. Na ultima linha disponivel adicione o caminhodoDisco DiretoriodeMontagem Formatação defaults 0 0 : exemplo
+/dev/sdb /disk2 ext4 defaults 0 0 : monta o disco sdb no diretorio disk2 em formato ext4. salve e feche o arquivo
+
+cp : copiar arquivos parametro -i pergunta antes de sobrepor, -r copia diretorios recursivamente, -v mostra o processo de copia 
+
+cp caminhodoArquivo diretorioDestino : copia arquivo de um diretorio para outro
+
+cp caminho/*.txt diretorioDestino : copia todos os arquivos com extensão txt para o diretorio destino, então tambem é possivel utilizar filtros na copia de arquivos como a*, ?a etc 
+
+mv : move arquivos de um diretorio para outro, mesma forma de uso do cp
+
+mv nomeDoArquivo novoNome : renomeia o arquivo
+
+ps : mostra os processos, parametro 'a' mostra de todos os usuarios, 'u' mostra o horario que o processo foi iniciado, 'x' mostra todos os processos incluindo processos iniciados fora do console
+
+kill Iddoprocesso : finaliza um processo pelo id que pode ser encontrado no comando ps
+
+killall nomeDoProcesso : exemplo killall chrome : finaliza qualquer processo que esteja rodando o google chrome
+
+w : mostra usuarios logados no momento
+
+who -a : mostra usuarios logados no momento e PID de login deles
+
+kill PID : desloga o usuario do PID correspondente
+
+systemctl restart smbd : reiniciar serviço samba (systemctl restart reinicia serviços daemon ou seja que rodam em segundo plano)
+
+-------------------------------------------------------------------------
+
+--------- SERVIDORES
+
+- samba : servidor de arquivos, login e impressão
+
+apt install samba -y
+
+nano /etc/samba/smb.conf : arquivo de configuração do samba
+
+final do arquivo especificar pasta compartilhada exemplo:
+
+[publica] (nome do serviço)
+
+path = /disk2/publica (caminho da pasta)
+writable = yes (permissão para inserir arquivos na pasta)
+guest ok = yes (permissão para todos os usuarios)
+guest only = yes (Todos os usuarios tem a mesma permissão)
+
+após salvar o arquivo precisa reiniciar o serviço do samba
+
+smb = samba, d = daemon (serviço que roda em segundo plano)
+todo serviço daemon termina com d no seu nome
+
+systemctl restart smbd : reiniciar serviço samba
+systemctl enable smbd : configura o samba para iniciar junto com o sistema
+
+
+- apache : servidor web
+
+apt install apache2 -y
+
+pasta padrão de exibição : /var/www/html
+
+
+- mysql : servidor banco de dados
+
+apt install mysql-server-8.0 -y
+
+mysql -u root -p : loga no banco como usuario root após digitar a senha após solicitado
+
+após logado o db funciona por linha de query assim como na interface workbench, muito similar ao sqlite
+
+exit : fecha a cli do db e volta a executar codigos no sistema operacional
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
